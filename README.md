@@ -28,64 +28,9 @@ notebooks, the dashboard, and (with a swap of the data source) a real dataset.
 
 ---
 
-## Repository structure
+Dashboard
 
-```
-pricing-experiment/
-│
-├── data/
-│   ├── raw/                        # place real input data here (untouched)
-│   └── processed/                  # cleaned/derived data written by the notebooks
-│
-├── notebooks/
-│   01_business_understanding.ipynb  # what does the business look like today?
-│   02_experiment_design.ipynb       # hypotheses, randomization, treatment + elasticity model
-│   03_power_analysis.ipynb          # MDE -> alpha, power, sample size, duration
-│   04_ab_testing.ipynb              # run the test: means, SE, CI, Welch's t-test, decision
-│   05_sensitivity_analysis.ipynb    # does the decision survive if elasticity is wrong?
-│   06_monte_carlo_simulation.ipynb  # ⭐ 10,000 simulated experiments: power, error rates, CI coverage
-│
-├── src/
-│   data_processing.py              # synthetic data generation + business metrics
-│   experiment.py                   # randomization, price treatment, elasticity model
-│   stats_tools.py                  # power analysis, Welch's t-test, confidence intervals
-│   simulation.py                   # Monte Carlo simulation engine
-│
-├── dashboard/
-│   streamlit_app.py                # interactive version of the full pipeline
-│
-├── README.md
-└── requirements.txt
-```
-
-> **Note on naming:** the statistics module is named `stats_tools.py` rather than `statistics.py`
-> to avoid silently shadowing Python's standard-library `statistics` module when notebooks add
-> `src/` to `sys.path` — a subtle bug worth knowing about if you ever name a module after a
-> stdlib package.
-
----
-
-## Setup
-
-```bash
-git clone <this-repo>
-cd pricing-experiment
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-Run the notebooks in order (each one is self-contained given the previous ones have been run once
-to populate `data/processed/`):
-
-```bash
-jupyter lab notebooks/
-```
-
-Or launch the interactive dashboard:
-
-```bash
-streamlit run dashboard/streamlit_app.py
-```
+![Dashboard](imgs/Dashboard.png)
 
 A stakeholder can move the sliders (price increase, elasticity, sample size, confidence level,
 power, MDE) and watch the recommendation update live — no notebook required.
